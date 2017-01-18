@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+<div class="col l6">
+	<h1>{{ category.name }}</h1>
+</div>
+
+{% if current_user.is_authenticated %}
+<div class="col l6 right-align">
+	<a href="{{url_for('newProduct', category_id = category.id )}}"> <h5>Add Product</h5> </a>
+</div>
+{% endif %}
+</div>
+<div class="row">
+    {% if products !=[] %}
+
+		{% for p in products %}
+
+		<div class="col s12">
+            <a href='{{url_for('showProduct', category_id = category.id, product_id= p.id ) }}'>{{p.name}} - {{p.price}}€</a>
+            <span> | </span>
+            {% if current_user.id==p.created_by_id %}
+			<a href='{{url_for('editProduct', category_id = category.id, product_id= p.id ) }}' >Edit</a>
+			<a href='{{url_for('deleteProduct', category_id = category.id, product_id= p.id ) }}' >Delete</a>
+			{% endif %}
+        </div>	
+
+		{% endfor %}
+
+		</br></br>
+
+		{% else %}
+		<p> No products in this category. </p>
+	{% endif %}
+</div>
+{% endblock %}

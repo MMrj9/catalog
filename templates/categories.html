@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+  <div class="col l6">
+  	<h1>Categories</h1>
+  </div>
+
+{% if current_user.is_authenticated %}
+  <div class="col l6 right-align">
+  	<a href="{{url_for('newCategory')}}" > <h5>New Category </h5> </a>
+  </div>
+{% endif %}
+</div>
+
+<div class="row">
+
+{% for category in categories %}
+
+        <div class="col s12 m4 l4">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <a class="card-title" href = "{{url_for('showProducts', category_id = category.id)}}" style="color: white;text-decoration: underline;">{{category.name}}</a>
+            </div>
+            {% if current_user.is_authenticated %}
+            <div class="card-action">
+				      <a href = "{{url_for('editCategory',category_id = category.id)}}">Edit</a>
+				      <a href = "{{url_for('deleteCategory',category_id = category.id)}}">Delete</a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
